@@ -1,14 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Kennel } from "./components/Kennel.js";
+import reportWebVitals from './reportWebVitals.js';
 
-ReactDOM.render(
+const container =   document.getElementById('root')
+const root = ReactDOM.createRoot(container);
+root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+    <Kennel />
+    </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+
 );
 
 // If you want to start measuring performance in your app, pass a function
