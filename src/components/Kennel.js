@@ -1,14 +1,16 @@
 import React from "react"
 import "./Kennel.css"
-import { AnimalCard } from "./animal/AnimalCard"
-import { LocationCard } from "./Location/Location"
-import { CustomerCard } from "./Customer/Customer"
-import { EmployeeCard } from "./Employee/Employee"
-import { PropsAndState } from "./PropsAndState"
+import { NavBar } from "./nav/NavBar"
+import { ApplicationViews } from "./ApplicationViews"
 
 export const Kennel = () => (
     <>
-        <PropsAndState yourName={"Luke"} myCohort="55"></PropsAndState>
+        <NavBar />
+        <ApplicationViews />
+    </>
+)
+
+{/* <PropsAndState yourName={"Luke"} myCohort="55"></PropsAndState>
         <h2>Nashville Kennels</h2>
         <small>Loving care when you're not there.</small>
         <address>
@@ -34,6 +36,4 @@ export const Kennel = () => (
        <h2>Employees</h2>
        <EmployeeCard />
        <EmployeeCard/>
-       <EmployeeCard/>
-    </>
-)
+       <EmployeeCard/> */}
