@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CustomerCard } from "./CustomerCard";
-import { getAllCustomers } from "../../modules/CustomerManager";
+import { getAllCustomers, deleteCustomer } from "../../modules/CustomerManager";
 
 export const CustomerList = () => {
     //The initial state is an empty array
@@ -12,6 +12,11 @@ export const CustomerList = () => {
         return getAllCustomers().then(data => setCustomers(data))
     }
 
+    const handleDelete = id => {
+        deleteCustomer(id)
+        .then(() => getAllCustomers().then(setCustomers))
+    }
+
     // got the cusomters from the API on the component's first render
     useEffect(() => {
         getCustomers()
@@ -19,7 +24,11 @@ export const CustomerList = () => {
 
     return (
         <div className="container-cards">
-            {customers.map(customer => <CustomerCard customer={customer} key={customer.id}/>)}
+            {customers.map(customer => <CustomerCard 
+            customer={customer} 
+            key={customer.id}
+            deleteCustomer={handleDelete}
+            />)}
         </div>
     )
 }

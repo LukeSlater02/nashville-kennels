@@ -5,5 +5,11 @@ export const getAllCustomers = () => {
 }
 
 export const getCustomerById = (id) => {
-    return fetch(`${remoteURL}/customer/${id}`).then(res => res.json())
+    return fetch(`${remoteURL}/customers/${id}`).then(res => res.json())
+}
+
+export const deleteCustomer = id => {
+    return fetch(`${remoteURL}/customers/${id}`, {
+        method: "DELETE"
+    }).then(res => res.json())
 }
