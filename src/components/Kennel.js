@@ -1,39 +1,29 @@
-import React from "react"
-import "./Kennel.css"
+import React, {useState} from "react"
 import { NavBar } from "./nav/NavBar"
 import { ApplicationViews } from "./ApplicationViews"
+import "./Kennel.css"
 
-export const Kennel = () => (
-    <>
-        <NavBar />
-        <ApplicationViews />
-    </>
-)
+export const Kennel = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem("kennel_customer") !== null)
 
-{/* <PropsAndState yourName={"Luke"} myCohort="55"></PropsAndState>
-        <h2>Nashville Kennels</h2>
-        <small>Loving care when you're not there.</small>
-        <address>
-            <div>Visit Us at the Nashville North Location</div>
-            <div>500 Puppy Way</div>
-        </address> 
-       
-       <h2>Animals</h2>
-       <AnimalCard />
-       <AnimalCard />
-       <AnimalCard />
+    const setAuthUser = (user) => {
+        sessionStorage.setItem("kennel_customer", JSON.stringify(user))
+        setIsAuthenticated(sessionStorage.getItem("kennel_customer") !== null)
+    }
 
-       <h2>Locations</h2>
-       <LocationCard />
-       <LocationCard />
-
-       <h2>Customers</h2>
-       <CustomerCard />
-       <CustomerCard />
-       <CustomerCard />
-       <CustomerCard />
-
-       <h2>Employees</h2>
-       <EmployeeCard />
-       <EmployeeCard/>
-       <EmployeeCard/> */}
+    const clearUser = () => {
+        sessionStorage.clear();
+        setIsAuthenticated(sessionStorage.getItem("kennel_customer") !== null)
+      }
+    
+      return (
+        <>
+            <NavBar clearUser={clearUser} isAuthenticated={isAuthenticated}/>
+            <ApplicationViews 
+                setAuthUser={setAuthUser}
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+            />
+        </>
+    )
+}

@@ -15,10 +15,14 @@ export const AnimalCard = ({ animal, deleteAnimal }) => {
           <p>Breed: {animal.breed}</p>
           <p>Location: {animal.location.address}, {animal.location.name}</p>
           <p>Owner: {animal.customer.name}</p>
+          <p>Assigned To: {animal.employee.name}</p>
         </div>
         <button type="button" onClick={() => deleteAnimal(animal.id)}>Discharge</button>
         <Link to={`/animals/animal__${animal.id}`}>
         <button>Details</button>
+        </Link>
+        <Link to={`/animals/${animal.id}/edit`}>
+          <button>Edit</button>
         </Link>
       </div>
     );

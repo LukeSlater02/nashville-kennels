@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate } from "react-router-dom"
 import { Home } from "../Home.js"
 import { AnimalList } from './animal/AnimalList'
 import { CustomerList } from "./Customer/CustomerList.js"
@@ -9,16 +9,42 @@ import { AnimalDetail } from "./animal/AnimalDetail.js"
 import { LocationDetail } from "./Location/LocationDetail.js"
 import { AnimalForm } from './animal/AnimalForm.js'
 import { EmployeeForm } from "./Employee/EmployeeForm.js"
+import { Login } from "./auth/Login.js"
+import { Register } from "./auth/Register"
+import { AnimalEditForm } from "./animal/AnimalEditForm.js"
 
-export const ApplicationViews = () => {
+export const ApplicationViews = ({ isAuthenticated, setIsAuthenticated }) => {
+    const PrivateRoute = ({ children }) => {
+        return isAuthenticated ? children : <Navigate to="/login" />;
+    }
+
+    const setAuthUser = (user) => {
+        sessionStorage.setItem("kennel_customer", JSON.stringify(user))
+        setIsAuthenticated(sessionStorage.getItem("kennel_customer") !== null)
+    }
+
     return (
         <>
             <Routes>
+                <Route exact path="/login" element={<Login setAuthUser={setAuthUser} />} />
+                <Route exact path="/register" element={<PrivateRoute><Register /></PrivateRoute>} />
+
                 {/* Render the location list when http://localhost:8088/ */}
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
 
                 {/* Render the animal list when http://localhost:8088/animals */}
-                <Route path="/animals" element={<AnimalList />} />
+                <Route exact path="/animals" element={
+                    <PrivateRoute>
+                        <AnimalList />
+                    </PrivateRoute>
+                } />
+
+                <Route path="/animals/:animalId/edit" element={
+                    <PrivateRoute>
+                        <AnimalEditForm />
+                    </PrivateRoute>
+                } />
+
                 <Route path="/animals/animal__:animalId" element={<AnimalDetail />} />
 
                 <Route path="/animals/create" element={<AnimalForm />} />

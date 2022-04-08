@@ -12,14 +12,14 @@ export const AnimalList = () => {
   const getAnimals = () => {
     // After the data comes back from the API, we
     // use the setAnimals function to update state
-    return getAllAnimals('?_expand=location&_expand=customer').then(animalsFromAPI => {
+    return getAllAnimals().then(animalsFromAPI => {
       setAnimals(animalsFromAPI)
     });
   };
 
   const handleDeleteAnimal = id => {
     deleteAnimal(id)
-      .then(() => getAllAnimals('?_expand=location&_expand=customer').then(setAnimals));
+      .then(() => getAllAnimals().then(setAnimals));
   };
 
   // got the animals from the API on the component's first render
