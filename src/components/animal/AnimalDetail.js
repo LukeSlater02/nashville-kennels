@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getAnimalById } from '../../modules/AnimalManager';
+import { deleteAnimal, getAnimalById } from '../../modules/AnimalManager';
 import './AnimalDetail.css';
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, Link } from "react-router-dom"
 
 export const AnimalDetail = () => {
   const [animal, setAnimal] = useState({});
+  const [isLoading, setIsLoading] = useState(true)
 
   const {animalId} = useParams();
   const navigate = useNavigate();
@@ -18,7 +19,15 @@ export const AnimalDetail = () => {
       .then(animal => {
         setAnimal(animal);
       });
+      setIsLoading(false)
   }, [animalId]);
+
+  const handleDelete = () => {
+    setIsLoading(true)
+    deleteAnimal(animalId).then(() => {
+      navigate("/animals")
+    })
+  }
 
   return (
     <section className="animal">
@@ -27,6 +36,7 @@ export const AnimalDetail = () => {
       <div className="animal__breed">{animal.breed}</div>
       <div className="animal__location">Location: {animal.location?.name}</div>
       <div className="animal__owner">Customer: {animal.customer?.name}</div>
+      <button onClick={handleDelete}>Delete</button>
     </section>
   );
 }
