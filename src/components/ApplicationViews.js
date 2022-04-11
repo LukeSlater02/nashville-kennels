@@ -12,6 +12,7 @@ import { EmployeeForm } from "./Employee/EmployeeForm.js"
 import { Login } from "./auth/Login.js"
 import { Register } from "./auth/Register"
 import { AnimalEditForm } from "./animal/AnimalEditForm.js"
+import { MadLib } from "./MadLib.js"
 
 export const ApplicationViews = ({ isAuthenticated, setIsAuthenticated }) => {
     const PrivateRoute = ({ children }) => {
@@ -28,6 +29,8 @@ export const ApplicationViews = ({ isAuthenticated, setIsAuthenticated }) => {
             <Routes>
                 <Route exact path="/login" element={<Login setAuthUser={setAuthUser} />} />
                 <Route exact path="/register" element={<PrivateRoute><Register /></PrivateRoute>} />
+
+                <Route path="/madLib" element={<MadLib />}></Route>
 
                 {/* Render the location list when http://localhost:8088/ */}
                 <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />

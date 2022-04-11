@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import { updateAnimal, getAnimalById } from "../../modules/AnimalManager"
+import { GetAllEmployees } from "../../modules/EmployeeManager";
+import { GetAllLocations } from "../../modules/LocationManager";
 import "./AnimalForm.css"
 
 export const AnimalEditForm = () => {
@@ -15,6 +17,8 @@ export const AnimalEditForm = () => {
     )
 
     const [isLoading, setIsLoading] = useState(false)
+    const [locations, setLocations] = useState([])
+    const [employees, setEmployees] = useState([])
 
     const {animalId} = useParams()
     const navigate = useNavigate()
@@ -49,6 +53,14 @@ export const AnimalEditForm = () => {
         })
     }, [])
 
+    useEffect(() => {
+      GetAllEmployees().then(setEmployees)
+    }, [])
+
+    useEffect(() => {
+      GetAllLocations().then(setLocations)
+    }, [])
+
     return (
         <>
           <form>
@@ -73,6 +85,22 @@ export const AnimalEditForm = () => {
                   value={animal.breed}
                 />
                 <label htmlFor="breed">Breed</label>
+                
+                <label htmlFor="locationId">Location</label>
+                <select className="form-control" id="locationId" onChange={handleFieldChange} value={animal.locationId}>
+                  <option value="0">Select Location</option>
+                  {locations.map(l => {
+                    return <option value={l.id} key={l.id}>{l.name}</option>
+                  })}
+                </select>
+
+                <label htmlFor="employeeId">Assign to Employee</label>
+                <select className="form-control" id="employeeId" onChange={handleFieldChange} value={animal.employeeId}>
+                  <option value="0">Select Employee</option>
+                  {employees.map(e => {
+                    return <option value={e.id} key={e.id}>{e.name}</option>
+                  })}
+                </select>
               </div>
               {/* Be sure to include location and customer */}
               <div className="alignRight">
