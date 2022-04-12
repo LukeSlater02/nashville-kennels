@@ -10,7 +10,8 @@ export const AnimalEditForm = () => {
             breed: "",
             locationId: 0,
             customerId: 0,
-            employeeId: 0
+            employeeId: 0,
+            date: ""
         }
     )
 
@@ -73,6 +74,9 @@ export const AnimalEditForm = () => {
                   value={animal.breed}
                 />
                 <label htmlFor="breed">Breed</label>
+
+                <label htmlFor="date">Date Admitted</label>
+                <input className="form-control" type="date" id="date" value={animal.date} readOnly></input>
               </div>
               {/* Be sure to include location and customer */}
               <div className="alignRight">
