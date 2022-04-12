@@ -9,21 +9,30 @@ import './AnimalForm.css'
 export const AnimalForm = () => {
     //State will contain both animal data as well as an isLoading flag
     //Define the initial state of the form inputs with useState()
+    const [isLoading, setisLoading] = useState(false)
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + "-" + mm + "-" + dd
+
+    //you will need the 'getAll' in the LocationsManager and Cusomters manage to complete this section
+    const [locations, setLocations] = useState([])
+    const [customers, setCustomers] = useState([])
+    const [employees, setEmployees] = useState([])
+    const [date, setDate] = useState(today)
 
     const [animal, setAnimal] = useState({
         name: "",
         breed: "",
         locationId: 0,
         customerId: 0,
-        employeeId: 0
+        employeeId: 0,
+        date: date
     })
 
-    const [isLoading, setisLoading] = useState(false)
-
-    //you will need the 'getAll' in the LocationsManager and Cusomters manage to complete this section
-    const [locations, setLocations] = useState([])
-    const [customers, setCustomers] = useState([])
-    const [employees, setEmployees] = useState([])
 
     const navigate = useNavigate()
 
@@ -35,12 +44,14 @@ export const AnimalForm = () => {
     const handleControlledInputChange = event => {
         //When changing a state object or array,
         //always create a copy, make changes, and then set state
+        
         const newAnimal = { ...animal }
         let selectedVal = event.target.value
         // forms always provide values as strings. But we want to save the ids as numbers
         if (event.target.id.includes("Id")) {
             selectedVal = parseInt(selectedVal)
         }
+        
         /*Animal is an object with properties.
         Set the property to the new value
         using object bracket notation. */
@@ -149,6 +160,11 @@ export const AnimalForm = () => {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="date">Date Admitted</label>
+                    <input className="form-control" type="date" id="date" defaultValue={date} onChange={handleControlledInputChange}></input>
                 </div>
             </fieldset>
             <button type="button" className="btn btn-primary"

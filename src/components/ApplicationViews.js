@@ -12,7 +12,7 @@ import { EmployeeForm } from "./Employee/EmployeeForm.js"
 import { Login } from "./auth/Login.js"
 import { Register } from "./auth/Register"
 import { AnimalEditForm } from "./animal/AnimalEditForm.js"
-
+import {DischargedList} from "./animal/DischargedAnimalList.js"
 export const ApplicationViews = ({ isAuthenticated, setIsAuthenticated }) => {
     const PrivateRoute = ({ children }) => {
         return isAuthenticated ? children : <Navigate to="/login" />;
@@ -45,6 +45,12 @@ export const ApplicationViews = ({ isAuthenticated, setIsAuthenticated }) => {
                     </PrivateRoute>
                 } />
 
+                <Route path="/discharged" element={
+                    <PrivateRoute>
+                        <DischargedList/>
+                    </PrivateRoute>
+                } />
+ 
                 <Route path="/animals/animal__:animalId" element={<AnimalDetail />} />
 
                 <Route path="/animals/create" element={<AnimalForm />} />

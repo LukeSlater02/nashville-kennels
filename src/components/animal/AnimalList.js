@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 //import the components we will need
 import { AnimalCard } from './AnimalCard';
 import { getAllAnimals, deleteAnimal } from '../../modules/AnimalManager';
+import { updateAnimal } from '../../modules/AnimalManager';
 
 export const AnimalList = () => {
   // The initial state is an empty array
@@ -13,14 +14,27 @@ export const AnimalList = () => {
     // After the data comes back from the API, we
     // use the setAnimals function to update state
     return getAllAnimals().then(animalsFromAPI => {
-      setAnimals(animalsFromAPI)
+      let filteredAnimals = animalsFromAPI.filter(animal => {
+        return animal.isDischarged === undefined
+      })
+      setAnimals(filteredAnimals)
     });
   };
 
-  const handleDeleteAnimal = id => {
-    deleteAnimal(id)
-      .then(() => getAllAnimals().then(setAnimals));
-  };
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + "-" + mm + "-" + dd
+  
+  const DischargeAnimal = ani => {
+    ani.isDischarged = true
+    ani.dischargedDate = today
+
+    updateAnimal(ani).then(() => getAnimals())
+  }
+
 
   // got the animals from the API on the component's first render
   useEffect(() => {
@@ -41,7 +55,7 @@ export const AnimalList = () => {
       {animals.map(animal => <AnimalCard 
       animal={animal} 
       key={animal.id}
-      deleteAnimal={handleDeleteAnimal}
+      discharge={DischargeAnimal}
       />)}
     </div>
   </>
